@@ -1,0 +1,28 @@
+name: Push & PR
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions: read-all
+
+concurrency:
+  group: push-pr-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  print-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print branch info
+        run: |
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.head_ref: ${{ github.head_ref }}"
+          echo "github.base_ref: ${{ github.base_ref }}"
+
+          # Determine the branch name
+          BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
+          echo "Running on branch: $BRANCH_NAME"
