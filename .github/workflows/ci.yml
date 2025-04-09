@@ -1,4 +1,4 @@
-name: Push & PR
+name: Push & PR (changed)
 
 on:
   push:
